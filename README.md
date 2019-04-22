@@ -9,7 +9,7 @@ Para gerar a minificação dos arquivos, rode `ng build --prod`. Isso fara com q
 ## Teste
 
 Para rodar o aplicativo, siga os seguintes passos:
-- npm install angular@7.3.8
+- npm install -g @angular/cli@7.3.8
 - clone esse reposotório
 - dentro dele, dê um npm install, para que as dependências sejam baixadas
 - rode ng serve e acesse localhost:4200 no seu browser
