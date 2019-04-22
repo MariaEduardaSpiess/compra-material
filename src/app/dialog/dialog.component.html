@@ -1,0 +1,14 @@
+<div class="alert-box">
+    <div class="modal-header">
+        <h4 class="modal-title">{{this.titulo}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        {{this.mensagem}}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onConfirm()">Fechar</button>
+    </div>
+</div>

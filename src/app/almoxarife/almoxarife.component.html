@@ -1,0 +1,78 @@
+<nav class="navbar navbar-light bg-light">
+  <button class="btn btn-outline-secondary" routerLink="/">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  <span class="navbar-brand mb-0 h1">Solicitações</span>
+  <span *ngIf="this.tipo == 'administrativo'">A: Aprovado | R: Reprovado | X: Solicitado</span>
+  <button class="btn btn-outline-primary" (click)="openModal(template)" *ngIf="this.tipo != 'almoxarife'">
+    Filtrar
+  </button>
+</nav>
+<div class="container mt-5">
+  <div class="list-group" *ngIf="this.tipo == 'almoxarife'">
+    <a href="/solicitacao/almoxarife/{{solicitacao.id}}" class="list-group-item list-group-item-action" *ngFor="let solicitacao of solicitacoes">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{solicitacao.descProduto}}</h5>
+        <p>{{solicitacao.precoProduto | currency:'BRL'}}</p>
+      </div>
+      <p *ngIf="solicitacao.status == 'R'">Observação: {{solicitacao.observacao}}</p>
+      <div class="d-flex w-100 justify-content-between">
+        <small>Solicitante: {{solicitacao.solicitante}}</small>
+        <span class="badge badge-secondary" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'X'">{{solicitacao.status}}</span>
+        <span class="badge badge-danger" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'R'">{{solicitacao.status}}</span>
+        <span class="badge badge-success" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'A'">{{solicitacao.status}}</span>
+      </div>
+    </a>
+  </div>
+  <div class="list-group" *ngIf="this.tipo == 'administrativo'">
+    <a class="list-group-item list-group-item-action" *ngFor="let solicitacao of solicitacoes">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{solicitacao.descProduto}}</h5>
+        <p>{{solicitacao.precoProduto | currency:'BRL'}}</p>
+      </div>
+      <p *ngIf="solicitacao.status == 'R'">Observação: {{solicitacao.observacao}}</p>
+      <div class="d-flex w-100 justify-content-between">
+        <small>Solicitante: {{solicitacao.solicitante}}</small>
+        <span class="badge badge-secondary" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'X'">{{solicitacao.status}}</span>
+        <span class="badge badge-danger" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'R'">{{solicitacao.status}}</span>
+        <span class="badge badge-success" *ngIf="this.tipo == 'administrativo' && solicitacao.status == 'A'">{{solicitacao.status}}</span>
+      </div>
+    </a>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Filtro</h4>
+    <button type="button" class="close pull-right"
+              aria-label="Close" (click)="this.modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="filtroForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="status">Status do Fluxo</label>
+        <select class="form-control" id="status" formControlName="status">
+          <option value="">Selecionar</option>
+          <option value="A">Aprovado</option>
+          <option value="R">Reprovado</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="solicitante">Nome do Solicitante</label>
+        <select class="form-control" id="solicitante" formControlName="solicitante">
+          <option value="">Selecionar</option>
+          <option *ngFor="let solicitacao of solicitacoes">{{solicitacao.solicitante}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="descProduto">Descrição do Produto</label>
+        <select class="form-control" id="descProduto" formControlName="descProduto">
+          <option value="">Selecionar</option>
+          <option *ngFor="let solicitacao of solicitacoes">{{solicitacao.descProduto}}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="filtroForm.invalid">Filtrar</button>
+    </form>
+  </div>
+</ng-template>

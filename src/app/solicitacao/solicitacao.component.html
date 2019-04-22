@@ -1,0 +1,48 @@
+<nav class="navbar navbar-light bg-light">
+  <button class="btn btn-outline-secondary" routerLink="/">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+  <span class="navbar-brand mb-0 h1">Solicitação</span>
+</nav>
+<div class="container mt-5">
+  <form [formGroup]="solicitacaoForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="solicitante">Nome do Solicitante</label>
+      <input type="text" id="solicitante" class="form-control" formControlName="solicitante">
+      <span  *ngIf="solicitante.invalid && (solicitante.dirty || solicitante.touched)">
+        O nome do solicitante é obrigatório
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="descProduto">Descrição do Produto</label>
+      <input type="text" id="descProduto" class="form-control" formControlName="descProduto">
+      <span  *ngIf="descProduto.invalid && (descProduto.dirty || descProduto.touched)">
+        O nome do solicitante é obrigatório
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="precoProduto">Preço do Produto</label>
+      <input id="precoProduto" class="form-control" currencyMask formControlName="precoProduto" [options]="{ prefix: 'R$ ', thousands: '', decimal: ',' }">
+      <span  *ngIf="precoProduto.invalid && (precoProduto.dirty || precoProduto.touched)">
+        O nome do solicitante é obrigatório
+      </span>
+    </div>
+    <div *ngIf="this.tipo == 'almoxarife'">
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select class="form-control" id="status" formControlName="status">
+          <option value="A">Aprovar</option>
+          <option value="R">Reprovar</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="this.tipo == 'almoxarife'">
+      <label for="observacao">Observação</label>
+      <textarea class="form-control" id="observacao" rows="3" formControlName="observacao"></textarea>
+      <span  *ngIf="observacao.invalid && this.tipo == 'almoxarife'">
+        A observação é obrigatória na reprovação
+      </span>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="solicitacaoForm.invalid">Salvar</button>
+  </form>
+</div>
